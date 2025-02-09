@@ -1,12 +1,4 @@
-local color_scheme_file = os.getenv("HOME") .. "/nix-dotfiles/home/current_theme.txt"
-local color_scheme = "catppuccin" -- Default value
-
--- Check if the color scheme file exists
-local file = io.open(color_scheme_file, "r")
-if file then
-	color_scheme = file:read("*line") or color_scheme -- Read the first line
-	file:close()
-end
+local color_scheme = "rose-pine" -- Default value
 
 local plugins = {
 	-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
