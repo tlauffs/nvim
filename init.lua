@@ -63,7 +63,7 @@ require("lazy").setup({
 	require("plugins.harpoon"),
 	require("plugins.autopairs"),
 	require("plugins.indentline"),
-  require("plugins.lint"),
+	require("plugins.lint"),
 	require("plugins.lualine"),
 	require("plugins.visual-multi"),
 	require("plugins.trouble"),
