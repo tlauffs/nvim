@@ -33,10 +33,10 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.breakindent = true
 
 -- tabstop
-vim.opt.tabstop = 6
-vim.opt.shiftwidth = 6
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.expandtab = false
-vim.bo.softtabstop = 6
+vim.bo.softtabstop = 4
 
 -- Save undo history
 vim.opt.undofile = true
