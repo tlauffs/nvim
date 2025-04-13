@@ -76,7 +76,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 		vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
 		vim.keymap.set("n", "<leader>sag", function() -- Search Hidden Inside Files (Live Grep)
 			builtin.live_grep({ hidden = true })
-		end, { desc = "[S]earch by [A]ll [G]rep" })
+		end, { desc = "[S]earch [A]ll [G]rep" })
 
 		vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
