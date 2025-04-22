@@ -69,6 +69,8 @@ require("lazy").setup({
 	require("plugins.trouble"),
 	require("plugins.fugative"),
 	require("plugins.flash"),
+	require("plugins.copilot"),
+	require("plugins.copilot-cmp"),
 	-- require("plugins.noice"),
 }, {
 	ui = {
