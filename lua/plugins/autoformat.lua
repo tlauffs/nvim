@@ -32,6 +32,7 @@ return { -- Autoformat
 			-- is found.
 			javascript = { { "prettierd", "prettier" } },
 			php = { "php-cs-fixer" },
+			json = { { "prettierd", "prettier" } },
 		},
 		formatters = {
 			["php-cs-fixer"] = {
