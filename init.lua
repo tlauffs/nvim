@@ -46,6 +46,8 @@ require("lazy").setup({
 	--
 	-- Use the `dependencies` key to specify the dependencies of a particular plugin
 
+	require("plugins.guessindent"),
+	require("plugins.lazydev"),
 	require("plugins.comment"),
 	require("plugins.whichkey"),
 	require("plugins.lsp"),
