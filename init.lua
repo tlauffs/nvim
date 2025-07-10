@@ -11,6 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 vim.opt.rtp:prepend(lazypath)
+
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
@@ -63,17 +64,13 @@ require("lazy").setup({
 	require("plugins.vimtmuxnav"),
 	require("plugins.oil"),
 	require("plugins.harpoon"),
-	require("plugins.autopairs"),
-	require("plugins.indentline"),
 	require("plugins.lint"),
 	require("plugins.lualine"),
-	require("plugins.visual-multi"),
 	require("plugins.trouble"),
 	require("plugins.fugative"),
 	require("plugins.flash"),
 	require("plugins.copilot"),
 	require("plugins.copilot-cmp"),
-	-- require("plugins.noice"),
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the

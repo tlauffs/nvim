@@ -1,5 +1,8 @@
 {
     "diagnostics.disable": [
         "deprecated"
+    ],
+    "diagnostics.globals": [
+        "callback"
     ]
 }
