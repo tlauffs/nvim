@@ -50,6 +50,7 @@ require("lazy").setup({
 	require("plugins.guessindent"),
 	require("plugins.lazydev"),
 	require("plugins.comment"),
+	require("plugins.undo"),
 	require("plugins.whichkey"),
 	require("plugins.lsp"),
 	require("plugins.autoformat"),
