@@ -30,9 +30,16 @@ return { -- Autoformat
 			--
 			-- You can use a sub-list to tell conform to run *until* a formatter
 			-- is found.
-			javascript = { { "prettierd", "prettier" } },
+			javascript = {
+				formatters = { "prettierd", "prettier" },
+				stop_after_first = true,
+			},
 			php = { "php-cs-fixer" },
-			json = { { "prettierd", "prettier" } },
+			json = {
+				"prettierd",
+				"prettier",
+				stop_after_first = true,
+			},
 		},
 		formatters = {
 			["php-cs-fixer"] = {
