@@ -4,7 +4,6 @@ return {
 	config = function()
 		require("which-key").setup()
 
-		-- Use `.add()` for new spec
 		require("which-key").add({
 			{ "<leader>c", group = "[C]ode" },
 			{ "<leader>r", group = "[R]ename" },
