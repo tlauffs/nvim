@@ -30,7 +30,6 @@ return { -- Autocompletion
 			opts = {},
 		},
 		"folke/lazydev.nvim",
-		"giuxtaposition/blink-cmp-copilot",
 	},
 	--- @module 'blink.cmp'
 	--- @type blink.cmp.Config
@@ -44,11 +43,9 @@ return { -- Autocompletion
 			-- 'enter' for enter to accept
 			-- 'none' for no mappings
 			preset = "default",
-
 			-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
 			--    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
 		},
-
 		appearance = {
 			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 			-- Adjusts spacing to ensure icons are aligned
@@ -64,7 +61,6 @@ return { -- Autocompletion
 		sources = {
 			default = {
 				"lsp",
-				"copilot",
 				"path",
 				"snippets",
 				"lazydev",
@@ -73,12 +69,6 @@ return { -- Autocompletion
 				lazydev = {
 					module = "lazydev.integrations.blink",
 					score_offset = 100,
-				},
-				copilot = {
-					name = "copilot",
-					module = "blink-cmp-copilot",
-					score_offset = 100,
-					async = true,
 				},
 			},
 		},

@@ -70,7 +70,6 @@ require("lazy").setup({
 	require("plugins.fugative"),
 	require("plugins.flash"),
 	require("plugins.copilot"),
-	require("plugins.copilot-cmp"),
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
