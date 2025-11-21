@@ -16,6 +16,7 @@ local nvim_colorscheme_map = {
 	["gruvbox"] = "gruvbox-baby",
 	["kanagawa"] = "kanagawa",
 	["rose-pine"] = "rose-pine",
+	["rose-pine-dawn"] = "rose-pine-dawn",
 	["digital-rain"] = "ron",
 }
 
