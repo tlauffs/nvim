@@ -5,10 +5,33 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			local lint = require("lint")
+
+			lint.linters.phpstan = {
+				name = "phpstan",
+				cmd = "vendor/bin/phpstan", -- adjust if needed
+				stdin = false,
+				args = {
+					"analyse",
+					"--error-format=raw",
+					"--no-progress",
+					"--level=9",
+					"--memory-limit=512M",
+					function()
+						return vim.api.nvim_buf_get_name(0)
+					end,
+				},
+				ignore_exitcode = true, -- we still want output on failure
+				parser = require("lint.parser").from_errorformat("%f:%l:%m", {
+					source = "phpstan",
+					severity = vim.diagnostic.severity.WARN,
+				}),
+			}
+
 			lint.linters_by_ft = {
 				-- markdown = { "markdownlint" },
 				php = { "phpstan" },
 			}
+
 			-- To allow other plugins to add linters to require('lint').linters_by_ft,
 			-- instead set linters_by_ft like this:
 			-- lint.linters_by_ft = lint.linters_by_ft or {}
@@ -47,8 +70,11 @@ return {
 			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 				group = lint_augroup,
 				callback = function()
-					callback = function()
-						require("lint").try_lint()
+					-- Only run the linter in buffers that you can modify in order to
+					-- avoid superfluous noise, notably within the handy LSP pop-ups that
+					-- describe the hovered symbol using Markdown.
+					if vim.bo.modifiable then
+						lint.try_lint()
 					end
 				end,
 			})
