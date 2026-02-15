@@ -28,3 +28,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.hl.on_yank()
 	end,
 })
+
+vim.keymap.set("n", "<leader>lx", "<cmd>source %<CR>", { desc = "Source current lua file" })
+vim.keymap.set("n", "<leader>ll", ":.lua<CR>", { desc = "source current lua line" })
+vim.keymap.set("v", "<leader>ll", ":lua<CR>", { desc = "Source current lua visual selection" })
