@@ -1,96 +1,74 @@
+vim.loader.enable()
+
 require("settings.options")
 require("settings.keybinds")
 
-local lazypath = vim.fn.stdpath("data") .. "/site/pack/packer/start/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"https://github.com/folke/lazy.nvim.git",
-		lazypath,
-	})
+local function gh(repo)
+	return "https://github.com/" .. repo
 end
-vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
-require("lazy").setup({
-	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-	-- NOTE: Plugins can also be configured to run Lua code when they are loaded.
-	--
-	-- This is often very useful to both group configuration, as well as handle
-	-- lazy loading plugins that don't need to be loaded immediately at startup.
-	--
-	-- For example, in the following configuration, we use:
-	--  event = 'VimEnter'
-	--
-	-- which loads which-key before all the UI elements are loaded. Events can be
-	-- normal autocommands events (`:help autocmd-events`).
-	--
-	-- Then, because we use the `config` key, the configuration only runs
-	-- after the plugin has been loaded:
-	--  config = function() ... end
+local function run_build(name, cmd, cwd)
+	local result = vim.system(cmd, { cwd = cwd }):wait()
+	if result.code ~= 0 then
+		local stderr = result.stderr or ""
+		local stdout = result.stdout or ""
+		local output = stderr ~= "" and stderr or stdout
+		if output == "" then
+			output = "No output from build command."
+		end
+		vim.notify(("Build failed for %s:\n%s"):format(name, output), vim.log.levels.ERROR)
+	end
+end
 
-	-- NOTE: Plugins can specify dependencies.
-	--
-	-- The dependencies are proper plugin specifications as well - anything
-	-- you do for a plugin at the top level, you can do for a dependency.
-	--
-	-- Use the `dependencies` key to specify the dependencies of a particular plugin
+vim.api.nvim_create_autocmd("PackChanged", {
+	callback = function(ev)
+		local name = ev.data.spec.name
+		local kind = ev.data.kind
+		if kind ~= "install" and kind ~= "update" then
+			return
+		end
 
-	require("plugins.lazydev"),
-	require("plugins.comment"),
-	require("plugins.undo"),
-	require("plugins.whichkey"),
-	require("plugins.lsp"),
-	require("plugins.autoformat"),
-	require("plugins.todohighlights"),
-	require("plugins.mini"),
-	require("plugins.treesitter"),
-	require("plugins.colorscheme"),
-	require("plugins.telescope"),
-	require("plugins.gitsigns"),
-	require("plugins.autocomplete"),
-	require("plugins.neotree"),
-	require("plugins.vimtmuxnav"),
-	require("plugins.oil"),
-	require("plugins.harpoon"),
-	require("plugins.lint"),
-	require("plugins.lualine"),
-	require("plugins.trouble"),
-	require("plugins.fugative"),
-	require("plugins.flash"),
-	require("plugins.copilot"),
-}, {
-	ui = {
-		-- If you are using a Nerd Font: set icons to an empty table which will use the
-		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-		icons = vim.g.have_nerd_font and {} or {
-			cmd = "⌘",
-			config = "🛠",
-			event = "📅",
-			ft = "📂",
-			init = "⚙",
-			keys = "🗝",
-			plugin = "🔌",
-			runtime = "💻",
-			require = "🌙",
-			source = "📄",
-			start = "🚀",
-			task = "📌",
-			lazy = "💤 ",
-		},
-	},
+		if name == "telescope-fzf-native.nvim" and vim.fn.executable("make") == 1 then
+			run_build(name, { "make" }, ev.data.path)
+			return
+		end
+
+		if name == "LuaSnip" then
+			if vim.fn.has("win32") ~= 1 and vim.fn.executable("make") == 1 then
+				run_build(name, { "make", "install_jsregexp" }, ev.data.path)
+			end
+			return
+		end
+
+		if name == "nvim-treesitter" then
+			if not ev.data.active then
+				vim.cmd.packadd("nvim-treesitter")
+			end
+			vim.cmd("TSUpdate")
+			return
+		end
+	end,
 })
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+require("plugins.whichkey")
+require("plugins.colorscheme")
+require("plugins.mini")
+require("plugins.lualine")
+require("plugins.gitsigns")
+require("plugins.comment")
+require("plugins.autoformat")
+require("plugins.treesitter")
+require("plugins.autocomplete")
+require("plugins.lsp")
+require("plugins.telescope")
+require("plugins.lint")
+require("plugins.trouble")
+require("plugins.neotree")
+require("plugins.oil")
+require("plugins.harpoon")
+require("plugins.flash")
+require("plugins.undo")
+require("plugins.fugative")
+require("plugins.vimtmuxnav")
+require("plugins.todohighlights")
+require("plugins.copilot")

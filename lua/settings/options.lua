@@ -1,13 +1,13 @@
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = "a"
 vim.opt.showmode = false
-vim.opt.clipboard = "unnamedplus"
+vim.schedule(function()
+	vim.opt.clipboard = "unnamedplus"
+end)
 vim.opt.breakindent = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -28,3 +28,4 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 15
 vim.opt.hlsearch = true
 vim.opt.swapfile = false
+vim.opt.confirm = true

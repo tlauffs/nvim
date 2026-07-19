@@ -1,56 +1,39 @@
-return { -- Autoformat
-	"stevearc/conform.nvim",
-	lazy = false,
-	keys = {
-		{
-			"<leader>f",
-			function()
-				require("conform").format({ async = true, lsp_fallback = true })
-			end,
-			mode = "",
-			desc = "[F]ormat buffer",
+vim.pack.add { "https://github.com/stevearc/conform.nvim" }
+require("conform").setup {
+	notify_on_error = false,
+	format_on_save = function(bufnr)
+		local disable_filetypes = { c = true, cpp = true }
+		return {
+			timeout_ms = 500,
+			lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+		}
+	end,
+	formatters_by_ft = {
+		lua = { "stylua" },
+		javascript = {
+			formatters = { "prettierd", "prettier" },
+			stop_after_first = true,
+		},
+		php = { "php-cs-fixer" },
+		json = {
+			"prettierd",
+			"prettier",
+			stop_after_first = true,
 		},
 	},
-	opts = {
-		notify_on_error = false,
-		format_on_save = function(bufnr)
-			-- Disable "format_on_save lsp_fallback" for languages that don't
-			-- have a well standardized coding style. You can add additional
-			-- languages here or re-enable it for the disabled ones.
-			local disable_filetypes = { c = true, cpp = true }
-			return {
-				timeout_ms = 500,
-				lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-			}
-		end,
-		formatters_by_ft = {
-			lua = { "stylua" },
-			-- Conform can also run multiple formatters sequentially
-			-- python = { "isort", "black" },
-			--
-			-- You can use a sub-list to tell conform to run *until* a formatter
-			-- is found.
-			javascript = {
-				formatters = { "prettierd", "prettier" },
-				stop_after_first = true,
+	formatters = {
+		["php-cs-fixer"] = {
+			command = "php-cs-fixer",
+			args = {
+				"fix",
+				"--rules=@PSR12",
+				"$FILENAME",
 			},
-			php = { "php-cs-fixer" },
-			json = {
-				"prettierd",
-				"prettier",
-				stop_after_first = true,
-			},
-		},
-		formatters = {
-			["php-cs-fixer"] = {
-				command = "php-cs-fixer",
-				args = {
-					"fix",
-					"--rules=@PSR12", -- Formatting preset. Other presets are available, see the php-cs-fixer docs.
-					"$FILENAME",
-				},
-				stdin = false,
-			},
+			stdin = false,
 		},
 	},
 }
+
+vim.keymap.set({ "n", "v" }, "<leader>f", function()
+	require("conform").format { async = true, lsp_fallback = true }
+end, { desc = "[F]ormat buffer" })
